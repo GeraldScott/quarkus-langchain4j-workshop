@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 
+import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
@@ -29,8 +30,8 @@ public class RagRetriever {
                 .contentRetriever(contentRetriever)
                 .contentInjector(new ContentInjector() {
                     @Override
-                    public UserMessage inject(List<Content> list, UserMessage userMessage) {
-                        StringBuffer prompt = new StringBuffer(userMessage.singleText());
+                    public ChatMessage inject(List<Content> list, ChatMessage chatMessage) {
+                        StringBuffer prompt = new StringBuffer(((UserMessage) chatMessage).singleText());
                         prompt.append("\nPlease, only use the following information:\n");
                         list.forEach(content -> prompt.append("- ").append(content.textSegment().text()).append("\n"));
                         return new UserMessage(prompt.toString());

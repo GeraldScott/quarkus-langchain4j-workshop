@@ -1,41 +1,28 @@
-INSERT INTO customer (id, firstName, lastName)
-VALUES (1, 'Speedy', 'McWheels');
-INSERT INTO customer (id, firstName, lastName)
-VALUES (2, 'Zoom', 'Thunderfoot');
-INSERT INTO customer (id, firstName, lastName)
-VALUES (3, 'Vroom', 'Lightyear');
-INSERT INTO customer (id, firstName, lastName)
-VALUES (4, 'Turbo', 'Gearshift');
-INSERT INTO customer (id, firstName, lastName)
-VALUES (5, 'Drifty', 'Skidmark');
+INSERT INTO customer (id, firstName, lastName) VALUES (1, 'Speedy', 'McWheels');
+INSERT INTO customer (id, firstName, lastName) VALUES (2, 'Zoom', 'Thunderfoot');
+INSERT INTO customer (id, firstName, lastName) VALUES (3, 'Vroom', 'Lightyear');
+INSERT INTO customer (id, firstName, lastName) VALUES (4, 'Turbo', 'Gearshift');
+INSERT INTO customer (id, firstName, lastName) VALUES (5, 'Drifty', 'Skidmark');
 
 ALTER SEQUENCE customer_seq RESTART WITH 5;
 
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (1, 1, '2024-07-10', '2024-07-15');
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (2, 1, '2024-08-05', '2024-08-12');
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (3, 1, '2024-10-01', '2024-10-07');
+-- Speedy McWheels (id 1): three bookings exercising the cancellation policy relative to today.
+-- Booking 1: starts in 30 days (> 11 days out), 5 days long (>= 4)  -> CANCELLABLE
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (1, 1, CURRENT_DATE + 30, CURRENT_DATE + 35);
+-- Booking 2: starts in 45 days but only 2 days long                 -> REFUSED (period < 4 days)
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (2, 1, CURRENT_DATE + 45, CURRENT_DATE + 47);
+-- Booking 3: starts in 5 days (< 11 days out)                       -> REFUSED (too late to cancel)
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (3, 1, CURRENT_DATE + 5, CURRENT_DATE + 12);
 
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (4, 2, '2024-07-20', '2024-07-25');
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (5, 2, '2024-11-10', '2024-11-15');
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (4, 2, CURRENT_DATE + 20, CURRENT_DATE + 25);
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (5, 2, CURRENT_DATE + 60, CURRENT_DATE + 65);
 
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (7, 3, '2024-06-15', '2024-06-20');
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (8, 3, '2024-10-12', '2024-10-18');
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (9, 3, '2024-12-03', '2024-12-09');
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (7, 3, CURRENT_DATE + 15, CURRENT_DATE + 20);
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (8, 3, CURRENT_DATE + 90, CURRENT_DATE + 96);
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (9, 3, CURRENT_DATE + 120, CURRENT_DATE + 126);
 
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (10, 4, '2024-07-01', '2024-07-06');
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (11, 4, '2024-07-25', '2024-07-30');
-INSERT INTO booking (id, customer_id, dateFrom, dateTo)
-VALUES (12, 4, '2024-10-15', '2024-10-22');
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (10, 4, CURRENT_DATE + 25, CURRENT_DATE + 30);
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (11, 4, CURRENT_DATE + 50, CURRENT_DATE + 55);
+INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (12, 4, CURRENT_DATE + 75, CURRENT_DATE + 82);
 
 ALTER SEQUENCE booking_seq RESTART WITH 12;
-
