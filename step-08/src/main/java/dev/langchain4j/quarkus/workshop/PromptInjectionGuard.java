@@ -4,6 +4,7 @@ import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.guardrail.InputGuardrail;
 import dev.langchain4j.guardrail.InputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.control.ActivateRequestContext;
 
 @ApplicationScoped
 public class PromptInjectionGuard implements InputGuardrail {
@@ -15,6 +16,7 @@ public class PromptInjectionGuard implements InputGuardrail {
     }
 
     @Override
+    @ActivateRequestContext
     public InputGuardrailResult validate(UserMessage userMessage) {
         double result = service.isInjection(userMessage.singleText());
         if (result > 0.7) {
