@@ -18,7 +18,7 @@ public class CustomerSupportAgentWebSocket {
 
     @OnOpen
     public String onOpen() {
-        return "Welcome to Miles of Smiles! How can I help you today?";
+        return "Welcome to Barkly's Bark-a-thon! How can I help you today?";
     }
 
     @OnTextMessage

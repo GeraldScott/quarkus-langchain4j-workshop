@@ -48,12 +48,12 @@ export class DemoTitle extends LitElement {
     render() {
         return html`
             <div class="title">
-                <h2>Miles of Smiles</h2>
+                <h2>Barkly's Bark-a-thon</h2>
             </div>
             <div class="explanation">
-                <p>Welcome to Miles of Smiles!</p>
-                <p>Please click the button on the bottom right to start the conversation 
-                with an LLM-powered customer support agent.</p>
+                <p>Welcome to Barkly's Bark-a-thon!</p>
+                <p>Send a message on the bottom right to start a conversation
+                with our olduvai-powered emotional support pooch.</p>
             </div>
         `
     }

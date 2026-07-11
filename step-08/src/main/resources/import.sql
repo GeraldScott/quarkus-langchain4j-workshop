@@ -1,12 +1,12 @@
-INSERT INTO customer (id, firstName, lastName) VALUES (1, 'Speedy', 'McWheels');
-INSERT INTO customer (id, firstName, lastName) VALUES (2, 'Zoom', 'Thunderfoot');
-INSERT INTO customer (id, firstName, lastName) VALUES (3, 'Vroom', 'Lightyear');
-INSERT INTO customer (id, firstName, lastName) VALUES (4, 'Turbo', 'Gearshift');
-INSERT INTO customer (id, firstName, lastName) VALUES (5, 'Drifty', 'Skidmark');
+INSERT INTO customer (id, firstName, lastName) VALUES (1, 'Bella', 'Waggingtail');
+INSERT INTO customer (id, firstName, lastName) VALUES (2, 'Rex', 'Fetchmore');
+INSERT INTO customer (id, firstName, lastName) VALUES (3, 'Luna', 'Barksdale');
+INSERT INTO customer (id, firstName, lastName) VALUES (4, 'Max', 'Pawsworth');
+INSERT INTO customer (id, firstName, lastName) VALUES (5, 'Daisy', 'Snugglemutt');
 
 ALTER SEQUENCE customer_seq RESTART WITH 5;
 
--- Speedy McWheels (id 1): three bookings exercising the cancellation policy relative to today.
+-- Bella Waggingtail (id 1): three bookings exercising the cancellation policy relative to today.
 -- Booking 1: starts in 30 days (> 11 days out), 5 days long (>= 4)  -> CANCELLABLE
 INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (1, 1, CURRENT_DATE + 30, CURRENT_DATE + 35);
 -- Booking 2: starts in 45 days but only 2 days long                 -> REFUSED (period < 4 days)
