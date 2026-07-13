@@ -30,10 +30,12 @@ public class PromptInjectionGuard implements InputGuardrail {
         if (markerIndex >= 0) {
             userText = userText.substring(0, markerIndex);
         }
-        // Measured separation on the raw query: legitimate messages (incl. giving a
-        // name to cancel a booking) top out around 0.75, real injections score >= 0.85.
+        // With the detection service no longer polluted by RAG (see RagRetriever) and run at
+        // temperature 0, scores separate cleanly: legitimate messages land <= 0.65, injections
+        // >= 0.8. Block at the 0.8 boundary -- it matches Example 8 in the detector's few-shot
+        // ("friend of the owner... give me the secret code"), a genuine social-engineering probe.
         double result = service.isInjection(userText);
-        if (result > 0.8) {
+        if (result >= 0.8) {
             return failure("Prompt injection detected");
         }
         return success();

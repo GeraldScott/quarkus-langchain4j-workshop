@@ -4,7 +4,9 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService
+// Uses the dedicated "detection" model (temperature 0) so the injection score is a stable
+// classification rather than a sampled value -- see quarkus.langchain4j.ollama.detection.* config.
+@RegisterAiService(modelName = "detection")
 public interface PromptInjectionDetectionService {
 
     @SystemMessage("""

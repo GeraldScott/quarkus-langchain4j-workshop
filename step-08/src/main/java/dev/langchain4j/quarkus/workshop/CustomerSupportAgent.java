@@ -8,7 +8,7 @@ import io.quarkiverse.langchain4j.ToolBox;
 import dev.langchain4j.service.guardrail.InputGuardrails;
 
 @SessionScoped
-@RegisterAiService
+@RegisterAiService(retrievalAugmentor = RagRetriever.class)
 public interface CustomerSupportAgent {
 
     @SystemMessage("""

@@ -1,9 +1,9 @@
 package dev.langchain4j.quarkus.workshop;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Produces;
 
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.UserMessage;
@@ -15,18 +15,25 @@ import dev.langchain4j.rag.content.injector.ContentInjector;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 
-public class RagRetriever {
+// Exposed as a Supplier<RetrievalAugmentor> (NOT an unqualified RetrievalAugmentor bean) so that
+// Quarkus does NOT auto-wire it into every @RegisterAiService. RAG must apply ONLY to the customer
+// support agent -- if it also augments PromptInjectionDetectionService, the detector runs its own
+// retrieval over the whole detection prompt and appends unrelated policy chunks, which dilutes the
+// injection signal and lets attacks slip past the guardrail. CustomerSupportAgent references this
+// explicitly via @RegisterAiService(retrievalAugmentor = RagRetriever.class).
+@ApplicationScoped
+public class RagRetriever implements Supplier<RetrievalAugmentor> {
 
-    @Produces
-    @ApplicationScoped
-    public RetrievalAugmentor create(EmbeddingStore store, EmbeddingModel model) {
+    private final RetrievalAugmentor augmentor;
+
+    public RagRetriever(EmbeddingStore store, EmbeddingModel model) {
         var contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingModel(model)
                 .embeddingStore(store)
                 .maxResults(3)
                 .build();
 
-        return DefaultRetrievalAugmentor.builder()
+        this.augmentor = DefaultRetrievalAugmentor.builder()
                 .contentRetriever(contentRetriever)
                 .contentInjector(new ContentInjector() {
                     @Override
@@ -38,5 +45,10 @@ public class RagRetriever {
                     }
                 })
                 .build();
+    }
+
+    @Override
+    public RetrievalAugmentor get() {
+        return augmentor;
     }
 }
