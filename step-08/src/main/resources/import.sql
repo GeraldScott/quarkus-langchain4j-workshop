@@ -1,12 +1,14 @@
-INSERT INTO customer (id, firstName, lastName) VALUES (1, 'Barkus', 'Aurelius');
-INSERT INTO customer (id, firstName, lastName) VALUES (2, 'Hairy', 'Pawter');
-INSERT INTO customer (id, firstName, lastName) VALUES (3, 'Bark', 'Wahlberg');
-INSERT INTO customer (id, firstName, lastName) VALUES (4, 'Jimmy', 'Chew');
-INSERT INTO customer (id, firstName, lastName) VALUES (5, 'Mary', 'Puppins');
+-- Customers are the humans who book sessions with our support dogs.
+-- (The support dogs -- Barkus Aurelius, Hairy Pawter, etc. -- are the roster in the RAG docs, not customers.)
+INSERT INTO customer (id, firstName, lastName) VALUES (1, 'Thabo', 'Nkosi');
+INSERT INTO customer (id, firstName, lastName) VALUES (2, 'Anele', 'Dlamini');
+INSERT INTO customer (id, firstName, lastName) VALUES (3, 'Johan', 'Botha');
+INSERT INTO customer (id, firstName, lastName) VALUES (4, 'Priya', 'Naidoo');
+INSERT INTO customer (id, firstName, lastName) VALUES (5, 'Sarah', 'Wilson');
 
 ALTER SEQUENCE customer_seq RESTART WITH 5;
 
--- Barkus Aurelius (id 1): three bookings exercising the cancellation policy relative to today.
+-- Thabo Nkosi (id 1): three bookings exercising the cancellation policy relative to today.
 -- Booking 1: starts in 30 days (> 11 days out), 5 days long (>= 4)  -> CANCELLABLE
 INSERT INTO booking (id, customer_id, dateFrom, dateTo) VALUES (1, 1, CURRENT_DATE + 30, CURRENT_DATE + 35);
 -- Booking 2: starts in 45 days but only 2 days long                 -> REFUSED (period < 4 days)

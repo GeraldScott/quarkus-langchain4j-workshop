@@ -26,8 +26,15 @@ public class CustomerSupportAgentWebSocket {
         try {
             return customerSupportAgent.chat(message);
         } catch (GuardrailException e) {
-            Log.errorf(e, "Error calling the LLM: %s", e.getMessage());
+            Log.errorf(e, "Guardrail blocked the request: %s", e.getMessage());
             return "Sorry, I am unable to process your request at the moment. It's not something I'm allowed to do.";
+        } catch (Exception e) {
+            // Any other failure -- LLM timeout, Ollama unreachable, a tool blowing up, etc.
+            // We MUST still return a message: the browser only clears its "typing" spinner when a
+            // frame arrives, so an unhandled exception here would leave the user staring at an
+            // eternal spinner with no response.
+            Log.errorf(e, "Error handling chat message: %s", e.getMessage());
+            return "Sorry, I'm having trouble responding right now. Please try again in a moment.";
         }
     }
 }

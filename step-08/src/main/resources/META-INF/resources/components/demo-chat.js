@@ -55,6 +55,22 @@ export class DemoChat extends LitElement {
             }
         }
 
+        // Never leave the user staring at a spinner: if the socket errors or closes while a
+        // response is pending, clear the loading bubble (and, on error, say something).
+        socket.onerror = function () {
+            chatBot.hideLastLoading();
+            chatBot.sendMessage("Sorry, the connection had a problem. Please refresh the page and try again.", {
+                right: false,
+                sender: {
+                    name: "Bot"
+                }
+            });
+        }
+
+        socket.onclose = function () {
+            chatBot.hideLastLoading();
+        }
+
         chatBot.addEventListener("sent", function (e) {
             if (e.detail.message.sender.name !== "Bot") {
                 // User message
