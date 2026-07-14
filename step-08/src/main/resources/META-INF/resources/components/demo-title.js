@@ -27,7 +27,7 @@ export class DemoTitle extends LitElement {
         padding: 1em;
         background: var(--main-bg-color);
       }
-      
+
       .explanation {
         margin-left: auto;
         margin-right: auto;
@@ -35,7 +35,7 @@ export class DemoTitle extends LitElement {
         text-align: justify;
         font-size: 20px;
       }
-      
+
       .explanation img {
         max-width: 60%;
         display: block;
@@ -51,9 +51,8 @@ export class DemoTitle extends LitElement {
                 <h2>Barkly's Bark-a-thon</h2>
             </div>
             <div class="explanation">
-                <p>Welcome to Barkly's Bark-a-thon!</p>
-                <p>Send a message on the bottom right to start a conversation
-                with our olduvai-powered emotional support pooch.</p>
+                <p>Click on the button bottom right to start a conversation
+                with our Barkly-powered emotional support pooch.</p>
             </div>
         `
     }
